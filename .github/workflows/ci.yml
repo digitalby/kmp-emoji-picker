@@ -19,7 +19,7 @@ jobs:
           distribution: corretto
           java-version: "21"
       - uses: gradle/actions/setup-gradle@v4
-      - run: ./gradlew spotlessCheck :picker:compileKotlinJvm :picker:compileKotlinWasmJs :picker:compileDebugKotlinAndroid :picker:jvmTest --no-daemon --stacktrace
+      - run: ./gradlew spotlessCheck :picker:compileKotlinJvm :picker:compileKotlinWasmJs :picker:compileDebugKotlinAndroid :picker:jvmTest :sample:composeApp:compileKotlinJvm :sample:composeApp:compileKotlinWasmJs :sample:composeApp:assembleDebug --no-daemon --stacktrace
 
   build-ios:
     runs-on: macos-latest
@@ -30,4 +30,4 @@ jobs:
           distribution: corretto
           java-version: "21"
       - uses: gradle/actions/setup-gradle@v4
-      - run: ./gradlew :picker:compileKotlinIosSimulatorArm64 :picker:compileKotlinIosArm64 :picker:compileKotlinIosX64 --no-daemon --stacktrace
+      - run: ./gradlew :picker:compileKotlinIosSimulatorArm64 :picker:compileKotlinIosArm64 :picker:compileKotlinIosX64 :sample:composeApp:compileKotlinIosSimulatorArm64 --no-daemon --stacktrace

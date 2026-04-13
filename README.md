@@ -53,6 +53,38 @@ fun MyScreen(onInsert: (String) -> Unit) {
 - JVM (Desktop)
 - wasmJs (browser)
 
+## Run the sample
+
+The `sample/composeApp` module dogfoods the picker on every target.
+
+```bash
+# Desktop (JVM)
+./gradlew :sample:composeApp:run
+
+# Android (device or emulator attached)
+./gradlew :sample:composeApp:installDebug
+
+# Web (wasmJs) — serves at http://localhost:8080
+./gradlew :sample:composeApp:wasmJsBrowserDevelopmentRun
+
+# iOS — compiles the framework; integrate into your own SwiftUI host
+./gradlew :sample:composeApp:linkDebugFrameworkIosSimulatorArm64
+```
+
+For iOS, the KMP module exports `MainViewController()`. Wire it into SwiftUI:
+
+```swift
+import SwiftUI
+import ComposeApp
+
+struct ComposeView: UIViewControllerRepresentable {
+    func makeUIViewController(context: Context) -> UIViewController {
+        MainViewControllerKt.MainViewController()
+    }
+    func updateUIViewController(_ vc: UIViewController, context: Context) {}
+}
+```
+
 ## License
 
 MIT
