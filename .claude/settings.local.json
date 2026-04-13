@@ -1,7 +1,14 @@
 {
   "permissions": {
     "allow": [
-      "Bash(gh search:*)"
+      "Bash(gh search:*)",
+      "WebFetch(domain:github.com)",
+      "WebFetch(domain:applelocalization.com)",
+      "WebFetch(domain:raw.githubusercontent.com)",
+      "WebFetch(domain:www.unicode.org)",
+      "WebFetch(domain:unicode.org)",
+      "WebFetch(domain:emojibase.dev)",
+      "WebSearch"
     ]
   }
 }
