@@ -2,6 +2,11 @@
 
 A Compose Multiplatform emoji picker. Works on Android, iOS, JVM/Desktop, and wasmJs from a single codebase.
 
+<p align="center">
+  <img src="docs/hero-light.png" alt="Light theme: searchable emoji grid with category tabs" width="320" />
+  <img src="docs/hero-dark.png" alt="Dark theme: full category row with emoji grid" width="480" />
+</p>
+
 ## Why
 
 Research in April 2026 confirmed there is no Compose Multiplatform emoji picker. [kosi-libs/Emoji.kt](https://github.com/kosi-libs/Emoji.kt) provides the data layer and renderers across all CMP targets but does not ship a picker UI. Every existing "compose emoji picker" on GitHub (androidx.emoji2.emojipicker, Abhimanyu14/compose-emoji-picker, vanniktech/Emoji, and several others) is Android-only.
