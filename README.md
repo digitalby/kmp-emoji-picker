@@ -79,6 +79,8 @@ fun MyScreen(onInsert: (String) -> Unit) {
 
 Every emoji cell carries `contentDescription` and `Role.Button`, so TalkBack, VoiceOver, and desktop screen readers announce the emoji name and "button" affordance. Tone chips carry per-tone descriptions (e.g. "waving hand, medium dark skin tone").
 
+Emoji with skin-tone variants show a small disclosure triangle in the bottom-right corner of the cell (matching iOS and Android system pickers), and their `contentDescription` is suffixed with "has skin tone variants" so screen readers announce the affordance.
+
 ## Run the sample
 
 The `sample/composeApp` module dogfoods the picker on every target.

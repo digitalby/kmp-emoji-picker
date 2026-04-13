@@ -1,5 +1,6 @@
 package me.digitalby.emojipicker.internal
 
+import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.LocalIndication
 import androidx.compose.foundation.background
@@ -13,6 +14,7 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
@@ -28,6 +30,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.input.key.Key
 import androidx.compose.ui.input.key.KeyEventType
 import androidx.compose.ui.input.key.isAltPressed
@@ -113,8 +116,13 @@ private fun EmojiCell(
 ) {
     val interactionSource = remember { MutableInteractionSource() }
     val isFocused by interactionSource.collectIsFocusedAsState()
-    val description = displayed.details.description
+    val description = if (supportsTones) {
+        "${displayed.details.description}, has skin tone variants"
+    } else {
+        displayed.details.description
+    }
     val primary = MaterialTheme.colorScheme.primary
+    val indicatorColor = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.55f)
 
     Box(
         modifier = Modifier
@@ -154,5 +162,21 @@ private fun EmojiCell(
         contentAlignment = Alignment.Center,
     ) {
         TextWithPlatformEmoji(text = displayed.details.string, fontSize = 24.sp)
+        if (supportsTones) {
+            Canvas(
+                modifier = Modifier
+                    .align(Alignment.BottomEnd)
+                    .padding(end = 4.dp, bottom = 4.dp)
+                    .size(6.dp),
+            ) {
+                val path = Path().apply {
+                    moveTo(size.width, 0f)
+                    lineTo(size.width, size.height)
+                    lineTo(0f, size.height)
+                    close()
+                }
+                drawPath(path = path, color = indicatorColor)
+            }
+        }
     }
 }

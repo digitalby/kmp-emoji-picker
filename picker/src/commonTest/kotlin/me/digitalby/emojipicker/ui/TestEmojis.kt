@@ -13,6 +13,12 @@ internal object TestEmojis {
     }
     val all: List<Emoji> by lazy { allGroupNames.flatMap { Emoji.allOf(it) } }
     val plain: Emoji by lazy { all.first { it !is SkinTone1Emoji && it !is SkinTone2Emoji } }
+    val plain2: Emoji by lazy {
+        all.asSequence()
+            .filter { it !is SkinTone1Emoji && it !is SkinTone2Emoji }
+            .drop(1)
+            .first()
+    }
     val tonable1: Emoji by lazy { all.first { it is SkinTone1Emoji && it !is SkinTone2Emoji } }
     val tonable2: Emoji by lazy { all.first { it is SkinTone2Emoji } }
 

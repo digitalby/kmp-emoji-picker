@@ -112,12 +112,15 @@ class EmojiGridUiTest {
                 )
             }
         }
-        onNodeWithContentDescription(target.details.description).performTouchInput { longClick() }
-        // After long press the popup renders 6 cells with content descriptions containing " skin tone" or "default"
+        onNodeWithContentDescription(
+            label = target.details.description,
+            substring = true,
+        ).performTouchInput { longClick() }
+        // After long press: 1 source cell marked "has skin tone variants" + 5 tone popup cells = 6 nodes containing "skin tone"
         onAllNodesWithContentDescription(
             label = "skin tone",
             substring = true,
-        ).assertCountEquals(5)
+        ).assertCountEquals(6)
     }
 
     @Test
@@ -136,6 +139,44 @@ class EmojiGridUiTest {
         onNodeWithContentDescription(target.details.description).performTouchInput { longClick() }
         onAllNodesWithContentDescription(
             label = "skin tone",
+            substring = true,
+        ).assertCountEquals(0)
+    }
+
+    @Test
+    fun tonableCellDescriptionIncludesVariantMarker() = runComposeUiTest {
+        val target = TestEmojis.tonable1
+        setContent {
+            Box(Modifier.size(320.dp, 320.dp)) {
+                EmojiGrid(
+                    emojis = listOf(target),
+                    state = state(),
+                    columns = 1,
+                    onEmojiSelected = {},
+                )
+            }
+        }
+        onNodeWithContentDescription(
+            label = "has skin tone variants",
+            substring = true,
+        ).assertExists()
+    }
+
+    @Test
+    fun plainCellDescriptionOmitsVariantMarker() = runComposeUiTest {
+        val target = TestEmojis.plain
+        setContent {
+            Box(Modifier.size(320.dp, 320.dp)) {
+                EmojiGrid(
+                    emojis = listOf(target),
+                    state = state(),
+                    columns = 1,
+                    onEmojiSelected = {},
+                )
+            }
+        }
+        onAllNodesWithContentDescription(
+            label = "variants",
             substring = true,
         ).assertCountEquals(0)
     }

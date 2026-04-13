@@ -19,6 +19,8 @@ import me.digitalby.emojipicker.EmojiPicker
 import me.digitalby.emojipicker.EmojiPickerState
 import me.digitalby.emojipicker.RECENT_CATEGORY_ID
 import me.digitalby.emojipicker.RecentEmojiStore
+import me.digitalby.emojipicker.internal.EmojiGrid
+import me.digitalby.emojipicker.ui.TestEmojis
 import org.kodein.emoji.compose.EmojiService
 import kotlin.test.Test
 
@@ -100,6 +102,33 @@ class PickerScreenshotTest {
         }
         waitForIdle()
         onRoot().captureRoboImage("$snapshotDir/search_active.png")
+    }
+
+    @Test
+    fun tonableIndicatorVisible() = runComposeUiTest {
+        setContent {
+            MaterialTheme(colorScheme = lightColorScheme()) {
+                Box(
+                    modifier = Modifier
+                        .size(360.dp, 120.dp)
+                        .background(Color.White),
+                ) {
+                    EmojiGrid(
+                        emojis = listOf(
+                            TestEmojis.plain,
+                            TestEmojis.tonable1,
+                            TestEmojis.tonable2,
+                            TestEmojis.plain2,
+                        ),
+                        state = state(),
+                        columns = 4,
+                        onEmojiSelected = {},
+                    )
+                }
+            }
+        }
+        waitForIdle()
+        onRoot().captureRoboImage("$snapshotDir/tonable_indicator.png")
     }
 
     @Test
