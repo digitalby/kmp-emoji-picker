@@ -16,11 +16,23 @@ This library is a thin UI layer on top of `org.kodein.emoji:emoji-compose-m3`, g
 
 ## Install
 
+Releases are published to GitHub Packages. Maven Central support is planned but not yet active, see [issue tracker](https://github.com/digitalby/kmp-emoji-picker/issues).
+
 ```kotlin
 // settings.gradle.kts
 dependencyResolutionManagement {
     repositories {
         mavenCentral()
+        google()
+        maven {
+            url = uri("https://maven.pkg.github.com/digitalby/kmp-emoji-picker")
+            credentials {
+                username = providers.gradleProperty("gpr.user").orNull
+                    ?: System.getenv("GITHUB_ACTOR")
+                password = providers.gradleProperty("gpr.key").orNull
+                    ?: System.getenv("GITHUB_TOKEN")
+            }
+        }
     }
 }
 
@@ -29,6 +41,10 @@ dependencies {
     implementation("me.digitalby:kmp-emoji-picker:0.1.0")
 }
 ```
+
+GitHub Packages requires authentication for reads. Generate a Personal Access Token with the `read:packages` scope and expose it as `GITHUB_TOKEN` (with `GITHUB_ACTOR` set to your GitHub username), or set `gpr.user` and `gpr.key` in `~/.gradle/gradle.properties`.
+
+Kotlin Multiplatform produces one artifact per target (`kmp-emoji-picker-android`, `-jvm`, `-iosarm64`, `-iossimulatorarm64`, `-iosx64`, `-wasm-js`) plus the metadata artifact. They all appear as separate entries on the repo's Packages page, which is expected for KMP publications on GitHub Packages.
 
 ## Usage
 

@@ -65,3 +65,16 @@ mavenPublishing {
     publishToMavenCentral(automaticRelease = false)
     signAllPublications()
 }
+
+publishing {
+    repositories {
+        maven {
+            name = "GitHubPackages"
+            url = uri("https://maven.pkg.github.com/digitalby/kmp-emoji-picker")
+            credentials {
+                username = System.getenv("GITHUB_ACTOR")
+                password = System.getenv("GITHUB_TOKEN")
+            }
+        }
+    }
+}
