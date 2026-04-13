@@ -43,6 +43,17 @@ kotlin {
             implementation(compose.desktop.currentOs)
             implementation(libs.roborazzi.compose.desktop)
         }
+        val androidUnitTest by getting {
+            dependencies {
+                implementation(kotlin("test"))
+                implementation(libs.robolectric)
+                implementation(libs.androidx.test.ext.junit)
+                implementation(libs.androidx.test.core)
+                @OptIn(org.jetbrains.compose.ExperimentalComposeLibrary::class)
+                implementation(compose.uiTest)
+                implementation("androidx.compose.ui:ui-test-manifest:1.8.0")
+            }
+        }
     }
 }
 
@@ -61,6 +72,12 @@ android {
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17
+    }
+    testOptions {
+        unitTests {
+            isIncludeAndroidResources = true
+            isReturnDefaultValues = true
+        }
     }
 }
 

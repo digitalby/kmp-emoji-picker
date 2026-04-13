@@ -9,6 +9,9 @@ ktlint = "1.5.0"
 maven-publish = "0.34.0"
 androidx-activity-compose = "1.10.1"
 roborazzi = "1.59.0"
+robolectric = "4.14.1"
+androidx-test-ext-junit = "1.2.1"
+androidx-test-core = "1.6.1"
 android-compile-sdk = "35"
 android-min-sdk = "24"
 
@@ -17,6 +20,9 @@ kodein-emoji-kt = { module = "org.kodein.emoji:emoji-kt", version.ref = "kodein-
 kodein-emoji-compose-m3 = { module = "org.kodein.emoji:emoji-compose-m3", version.ref = "kodein-emoji" }
 androidx-activity-compose = { module = "androidx.activity:activity-compose", version.ref = "androidx-activity-compose" }
 roborazzi-compose-desktop = { module = "io.github.takahirom.roborazzi:roborazzi-compose-desktop", version.ref = "roborazzi" }
+robolectric = { module = "org.robolectric:robolectric", version.ref = "robolectric" }
+androidx-test-ext-junit = { module = "androidx.test.ext:junit", version.ref = "androidx-test-ext-junit" }
+androidx-test-core = { module = "androidx.test:core", version.ref = "androidx-test-core" }
 kotlinx-coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "coroutines" }
 kotlinx-coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "coroutines" }
 

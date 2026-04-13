@@ -47,14 +47,14 @@ internal object EmojiL10n {
         val normalized = requested.lowercase().replace('_', '-')
         if (normalized in SUPPORTED_LOCALES) return normalized
         val primary = normalized.substringBefore('-')
-        if (primary in SUPPORTED_LOCALES) return primary
         if (primary == "zh") {
             val isTraditional = normalized.contains("hant") ||
-                normalized.contains("tw") ||
-                normalized.contains("hk") ||
-                normalized.contains("mo")
+                normalized.contains("-tw") ||
+                normalized.contains("-hk") ||
+                normalized.contains("-mo")
             return if (isTraditional) "zh-hant" else "zh"
         }
+        if (primary in SUPPORTED_LOCALES) return primary
         return "en"
     }
 }
