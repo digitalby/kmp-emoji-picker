@@ -14,6 +14,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.semantics.Role
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.role
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Popup
@@ -42,7 +46,11 @@ internal fun SkinTonePopup(
 ) {
     Popup(
         alignment = Alignment.Center,
-        properties = PopupProperties(focusable = true),
+        properties = PopupProperties(
+            focusable = true,
+            dismissOnBackPress = true,
+            dismissOnClickOutside = true,
+        ),
         onDismissRequest = onDismissRequest,
     ) {
         Surface(
@@ -72,8 +80,20 @@ internal fun SkinTonePopup(
     }
 }
 
+private fun SkinTone.label(): String = when (this) {
+    SkinTone.Light -> "light"
+    SkinTone.MediumLight -> "medium light"
+    SkinTone.Medium -> "medium"
+    SkinTone.MediumDark -> "medium dark"
+    SkinTone.Dark -> "dark"
+}
+
 @Composable
 private fun ToneCell(emoji: Emoji, tone: SkinTone?, onClick: () -> Unit) {
+    val description = when (tone) {
+        null -> "${emoji.details.description}, default"
+        else -> "${emoji.details.description}, ${tone.label()} skin tone"
+    }
     Box(
         modifier = Modifier
             .size(36.dp)
@@ -85,7 +105,11 @@ private fun ToneCell(emoji: Emoji, tone: SkinTone?, onClick: () -> Unit) {
                     MaterialTheme.colorScheme.surfaceContainer
                 },
             )
-            .clickable(onClick = onClick),
+            .semantics {
+                this.role = Role.Button
+                this.contentDescription = description
+            }
+            .clickable(onClickLabel = "Apply skin tone", onClick = onClick),
         contentAlignment = Alignment.Center,
     ) {
         TextWithPlatformEmoji(text = emoji.details.string, fontSize = 22.sp)

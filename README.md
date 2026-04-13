@@ -53,6 +53,16 @@ fun MyScreen(onInsert: (String) -> Unit) {
 - JVM (Desktop)
 - wasmJs (browser)
 
+## Accessibility
+
+- `Tab` / `Shift+Tab`: move between search, category tabs, and the grid
+- Arrow keys: move focus between emoji cells in the grid
+- `Enter` / `Space`: insert the focused emoji
+- `Alt+Enter`: open the skin-tone selector for the focused emoji (when supported)
+- `Escape`: dismiss the skin-tone popup
+
+Every emoji cell carries `contentDescription` and `Role.Button`, so TalkBack, VoiceOver, and desktop screen readers announce the emoji name and "button" affordance. Tone chips carry per-tone descriptions (e.g. "waving hand, medium dark skin tone").
+
 ## Run the sample
 
 The `sample/composeApp` module dogfoods the picker on every target.
