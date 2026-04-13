@@ -5,10 +5,10 @@ import androidx.compose.ui.test.assertIsSelected
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
 import androidx.compose.ui.test.runComposeUiTest
-import kotlin.test.Test
-import kotlin.test.assertEquals
 import me.digitalby.emojipicker.internal.CategoryEntry
 import me.digitalby.emojipicker.internal.CategoryTabs
+import kotlin.test.Test
+import kotlin.test.assertEquals
 
 @OptIn(ExperimentalTestApi::class)
 class CategoryTabsUiTest {

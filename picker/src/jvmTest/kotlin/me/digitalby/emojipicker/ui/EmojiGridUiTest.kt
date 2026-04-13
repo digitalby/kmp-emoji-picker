@@ -3,6 +3,8 @@ package me.digitalby.emojipicker.ui
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.size
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.semantics.Role
+import androidx.compose.ui.semantics.SemanticsProperties
 import androidx.compose.ui.test.ExperimentalTestApi
 import androidx.compose.ui.test.SemanticsMatcher
 import androidx.compose.ui.test.assert
@@ -13,16 +15,14 @@ import androidx.compose.ui.test.onNodeWithContentDescription
 import androidx.compose.ui.test.performClick
 import androidx.compose.ui.test.performTouchInput
 import androidx.compose.ui.test.runComposeUiTest
-import androidx.compose.ui.semantics.Role
-import androidx.compose.ui.semantics.SemanticsProperties
 import androidx.compose.ui.unit.dp
-import kotlin.test.Test
-import kotlin.test.assertEquals
 import me.digitalby.emojipicker.EmojiPickerState
 import me.digitalby.emojipicker.RECENT_CATEGORY_ID
 import me.digitalby.emojipicker.RecentEmojiStore
 import me.digitalby.emojipicker.internal.EmojiGrid
 import org.kodein.emoji.Emoji
+import kotlin.test.Test
+import kotlin.test.assertEquals
 
 @OptIn(ExperimentalTestApi::class)
 class EmojiGridUiTest {
@@ -140,6 +140,5 @@ class EmojiGridUiTest {
         ).assertCountEquals(0)
     }
 
-    private fun hasRole(expected: Role): SemanticsMatcher =
-        SemanticsMatcher.expectValue(SemanticsProperties.Role, expected)
+    private fun hasRole(expected: Role): SemanticsMatcher = SemanticsMatcher.expectValue(SemanticsProperties.Role, expected)
 }

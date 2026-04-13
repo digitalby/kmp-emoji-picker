@@ -7,10 +7,6 @@ import androidx.compose.ui.test.onAllNodesWithContentDescription
 import androidx.compose.ui.test.onNodeWithContentDescription
 import androidx.compose.ui.test.performClick
 import androidx.compose.ui.test.runComposeUiTest
-import kotlin.test.Test
-import kotlin.test.assertEquals
-import kotlin.test.assertNotNull
-import kotlin.test.assertNull
 import me.digitalby.emojipicker.EmojiPickerState
 import me.digitalby.emojipicker.RECENT_CATEGORY_ID
 import me.digitalby.emojipicker.RecentEmojiStore
@@ -18,6 +14,10 @@ import me.digitalby.emojipicker.internal.SkinTonePopup
 import org.kodein.emoji.Emoji
 import org.kodein.emoji.SkinTone
 import org.kodein.emoji.Toned1Emoji
+import kotlin.test.Test
+import kotlin.test.assertEquals
+import kotlin.test.assertNotNull
+import kotlin.test.assertNull
 
 @OptIn(ExperimentalTestApi::class)
 class SkinToneSelectorUiTest {

@@ -13,9 +13,9 @@ import androidx.compose.ui.test.onNodeWithContentDescription
 import androidx.compose.ui.test.performClick
 import androidx.compose.ui.test.performTextInput
 import androidx.compose.ui.test.runComposeUiTest
+import me.digitalby.emojipicker.internal.SearchField
 import kotlin.test.Test
 import kotlin.test.assertEquals
-import me.digitalby.emojipicker.internal.SearchField
 
 @OptIn(ExperimentalTestApi::class)
 class SearchFieldUiTest {

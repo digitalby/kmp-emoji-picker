@@ -4,24 +4,21 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.size
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.test.ExperimentalTestApi
-import androidx.compose.ui.test.assertCountEquals
 import androidx.compose.ui.test.hasSetTextAction
 import androidx.compose.ui.test.onAllNodesWithContentDescription
-import androidx.compose.ui.test.onAllNodesWithText
 import androidx.compose.ui.test.onFirst
-import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
 import androidx.compose.ui.test.performTextInput
 import androidx.compose.ui.test.runComposeUiTest
 import androidx.compose.ui.unit.dp
-import kotlin.test.Test
-import kotlin.test.assertEquals
-import kotlin.test.assertTrue
 import me.digitalby.emojipicker.EmojiPicker
 import me.digitalby.emojipicker.EmojiPickerState
 import me.digitalby.emojipicker.RECENT_CATEGORY_ID
 import me.digitalby.emojipicker.RecentEmojiStore
 import org.kodein.emoji.Emoji
+import kotlin.test.Test
+import kotlin.test.assertEquals
+import kotlin.test.assertTrue
 
 @OptIn(ExperimentalTestApi::class)
 class EmojiPickerFlowUiTest {
@@ -96,8 +93,6 @@ class EmojiPickerFlowUiTest {
         assertEquals(grinningDesc, store.recent.value.first().details.description)
     }
 
-    private fun androidx.compose.ui.test.ComposeUiTest.countCells(): Int =
-        onAllNodesWithContentDescription(label = "face", substring = true, ignoreCase = true)
-            .fetchSemanticsNodes().size
+    private fun androidx.compose.ui.test.ComposeUiTest.countCells(): Int = onAllNodesWithContentDescription(label = "face", substring = true, ignoreCase = true)
+        .fetchSemanticsNodes().size
 }
-

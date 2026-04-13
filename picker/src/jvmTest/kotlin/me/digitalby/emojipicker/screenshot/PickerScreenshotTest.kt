@@ -14,13 +14,13 @@ import androidx.compose.ui.test.onRoot
 import androidx.compose.ui.test.runComposeUiTest
 import androidx.compose.ui.unit.dp
 import io.github.takahirom.roborazzi.captureRoboImage
-import kotlin.test.Test
 import kotlinx.coroutines.runBlocking
 import me.digitalby.emojipicker.EmojiPicker
 import me.digitalby.emojipicker.EmojiPickerState
 import me.digitalby.emojipicker.RECENT_CATEGORY_ID
 import me.digitalby.emojipicker.RecentEmojiStore
 import org.kodein.emoji.compose.EmojiService
+import kotlin.test.Test
 
 @OptIn(ExperimentalTestApi::class)
 class PickerScreenshotTest {

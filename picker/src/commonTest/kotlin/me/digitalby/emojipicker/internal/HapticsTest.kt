@@ -9,12 +9,12 @@ import androidx.compose.ui.test.onNodeWithContentDescription
 import androidx.compose.ui.test.performTouchInput
 import androidx.compose.ui.test.runComposeUiTest
 import androidx.compose.ui.unit.dp
-import kotlin.test.Test
-import kotlin.test.assertEquals
 import me.digitalby.emojipicker.EmojiPickerState
 import me.digitalby.emojipicker.RECENT_CATEGORY_ID
 import me.digitalby.emojipicker.RecentEmojiStore
 import me.digitalby.emojipicker.ui.TestEmojis
+import kotlin.test.Test
+import kotlin.test.assertEquals
 
 private class FakeHaptics : Haptics {
     var longPressCount: Int = 0

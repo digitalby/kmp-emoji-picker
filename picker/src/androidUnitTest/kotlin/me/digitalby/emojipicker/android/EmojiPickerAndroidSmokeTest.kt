@@ -10,13 +10,13 @@ import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.runComposeUiTest
 import androidx.compose.ui.unit.dp
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import kotlin.test.Test
 import me.digitalby.emojipicker.EmojiPickerState
 import me.digitalby.emojipicker.RECENT_CATEGORY_ID
 import me.digitalby.emojipicker.RecentEmojiStore
 import me.digitalby.emojipicker.internal.SearchField
 import org.junit.runner.RunWith
 import org.robolectric.annotation.Config
+import kotlin.test.Test
 
 /**
  * Smoke coverage for the Android Compose rendering path.
