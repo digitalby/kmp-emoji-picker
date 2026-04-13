@@ -47,8 +47,10 @@ class HapticsTest {
                 )
             }
         }
-        onNodeWithContentDescription(target.details.description)
-            .performTouchInput { longClick() }
+        onNodeWithContentDescription(
+            label = target.details.description,
+            substring = true,
+        ).performTouchInput { longClick() }
         assertEquals(1, fake.longPressCount)
     }
 
@@ -67,8 +69,10 @@ class HapticsTest {
                 )
             }
         }
-        onNodeWithContentDescription(target.details.description)
-            .performTouchInput { longClick() }
+        onNodeWithContentDescription(
+            label = target.details.description,
+            substring = true,
+        ).performTouchInput { longClick() }
         assertEquals(0, fake.longPressCount)
     }
 }

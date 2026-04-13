@@ -87,6 +87,19 @@ compose.resources {
     generateResClass = auto
 }
 
+// Force the detected input locale for the unit-test task so screenshot goldens
+// are reproducible across developer machines. CI runners are en_US already,
+// but a developer's macOS regional override (e.g. en_US@rg=plzzzz) and active
+// Cocoa input source can otherwise leak through rememberCurrentInputLocale()
+// and drift the goldens.
+tasks.withType<Test>().configureEach {
+    jvmArgumentProviders.add(
+        CommandLineArgumentProvider {
+            listOf("-Demojipicker.forceLocale=en")
+        },
+    )
+}
+
 mavenPublishing {
     publishToMavenCentral(automaticRelease = false)
     signAllPublications()

@@ -20,6 +20,7 @@ import me.digitalby.emojipicker.internal.EmojiGrid
 import me.digitalby.emojipicker.internal.SearchField
 import me.digitalby.emojipicker.internal.buildCategories
 import me.digitalby.emojipicker.internal.filterEmojis
+import me.digitalby.emojipicker.internal.l10n.EmojiGroupL10n
 import me.digitalby.emojipicker.internal.l10n.EmojiL10n
 import me.digitalby.emojipicker.internal.l10n.LocalizedEntry
 import me.digitalby.emojipicker.internal.l10n.rememberCurrentInputLocale
@@ -48,12 +49,21 @@ public fun EmojiPicker(
     val recent by state.recentStore.recent.collectAsState()
     val scope = rememberCoroutineScope()
 
-    val categories = remember(catalog.groups, showRecent, recent.isNotEmpty()) {
+    val inputLocale = rememberCurrentInputLocale()
+    val groupLabels by produceState<Map<String, String>?>(
+        initialValue = null,
+        key1 = inputLocale,
+    ) {
+        value = EmojiGroupL10n.load(inputLocale)
+    }
+
+    val categories = remember(catalog.groups, showRecent, recent.isNotEmpty(), groupLabels) {
         buildCategories(
             groups = catalog.groups,
             showRecent = showRecent,
             hasRecent = recent.isNotEmpty(),
             recentLabel = EmojiPickerDefaults.RECENT_TAB_LABEL,
+            groupLabels = groupLabels,
         )
     }
 
@@ -67,7 +77,6 @@ public fun EmojiPicker(
         derivedStateOf { selectSourceEmojis(catalog, recent, state.selectedCategory) }
     }
 
-    val inputLocale = rememberCurrentInputLocale()
     val localizedEntries by produceState<Map<String, LocalizedEntry>?>(
         initialValue = null,
         key1 = inputLocale,

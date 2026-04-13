@@ -2,14 +2,7 @@
   "permissions": {
     "allow": [
       "Bash(gh search:*)",
-      "WebFetch(domain:github.com)",
-      "WebFetch(domain:applelocalization.com)",
-      "WebFetch(domain:raw.githubusercontent.com)",
-      "WebFetch(domain:www.unicode.org)",
-      "WebFetch(domain:unicode.org)",
-      "WebFetch(domain:emojibase.dev)",
-      "WebSearch",
-      "WebFetch(domain:repo1.maven.org)"
+      "Bash(curl -sG \"https://applelocalization.com/api/ios/search\" --data-urlencode \"q=Smileys & Emotion\")"
     ]
   }
 }

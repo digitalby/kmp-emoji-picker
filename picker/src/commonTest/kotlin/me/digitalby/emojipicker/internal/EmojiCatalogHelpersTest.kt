@@ -76,6 +76,37 @@ class EmojiCatalogHelpersTest {
     }
 
     @Test
+    fun buildCategoriesUsesGroupLabelsWhenProvided() {
+        val localized = mapOf(
+            "smileys_emotion" to "Смайлики и эмоции",
+            "flags" to "Флаги",
+        )
+        val result = buildCategories(
+            groups = listOf("smileys_emotion", "animals_nature", "flags"),
+            showRecent = false,
+            hasRecent = false,
+            recentLabel = "Recent",
+            groupLabels = localized,
+        )
+        assertEquals("Смайлики и эмоции", result[0].label)
+        assertEquals("Animals & Nature", result[1].label) // humanizer fallback
+        assertEquals("Флаги", result[2].label)
+    }
+
+    @Test
+    fun buildCategoriesHumanizesRawIdsWithNullMap() {
+        val result = buildCategories(
+            groups = listOf("smileys_emotion", "food_drink"),
+            showRecent = false,
+            hasRecent = false,
+            recentLabel = "Recent",
+            groupLabels = null,
+        )
+        assertEquals("Smileys & Emotion", result[0].label)
+        assertEquals("Food & Drink", result[1].label)
+    }
+
+    @Test
     fun buildCategoriesEmptyGroupsReturnsEmpty() {
         val result = buildCategories(
             groups = emptyList(),

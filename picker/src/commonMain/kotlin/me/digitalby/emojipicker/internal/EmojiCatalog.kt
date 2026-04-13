@@ -35,11 +35,14 @@ internal fun buildCategories(
     showRecent: Boolean,
     hasRecent: Boolean,
     recentLabel: String,
+    groupLabels: Map<String, String>? = null,
 ): List<CategoryEntry> = buildList {
     if (showRecent && hasRecent) {
         add(CategoryEntry(RECENT_CATEGORY_ID, recentLabel))
     }
-    groups.forEach { add(CategoryEntry(it, it)) }
+    groups.forEach { id ->
+        add(CategoryEntry(id, resolveGroupLabel(id, groupLabels)))
+    }
 }
 
 internal fun selectSourceEmojis(

@@ -22,6 +22,7 @@ import me.digitalby.emojipicker.RecentEmojiStore
 import me.digitalby.emojipicker.internal.EmojiGrid
 import me.digitalby.emojipicker.ui.TestEmojis
 import org.kodein.emoji.compose.EmojiService
+import java.util.Locale
 import kotlin.test.Test
 
 @OptIn(ExperimentalTestApi::class)
@@ -39,6 +40,9 @@ class PickerScreenshotTest {
     )
 
     init {
+        // Force English so goldens are reproducible across developer machines
+        // regardless of the host JVM's default locale.
+        Locale.setDefault(Locale.ENGLISH)
         // Warm the emoji service before any screenshot test runs so we don't
         // screenshot an empty grid while loading.
         runBlocking { EmojiService.await() }
