@@ -19,23 +19,43 @@ class EmojiSearchTest {
     fun emptyQueryReturnsAll() {
         val subset = sample.take(50)
         assertEquals(subset, filterEmojis(subset, ""))
-        assertEquals(subset, filterEmojis(subset, "   "))
     }
 
     @Test
-    fun matchesByDescription() {
+    fun whitespaceOnlyQueryReturnsAll() {
+        val subset = sample.take(50)
+        assertEquals(subset, filterEmojis(subset, "   "))
+        assertEquals(subset, filterEmojis(subset, "\t\n"))
+    }
+
+    @Test
+    fun descriptionMatchIsCaseInsensitive() {
         val grinning = sample.first { it.details.description == "grinning face" }
         assertTrue(matchesQuery(grinning, "grinning"))
         assertTrue(matchesQuery(grinning, "GRIN"))
-        assertFalse(matchesQuery(grinning, "xyz_no_match"))
+        assertTrue(matchesQuery(grinning, "GriNnInG"))
     }
 
     @Test
-    fun matchesByAlias() {
+    fun queryIsTrimmedAndLowercased() {
+        val grinning = sample.first { it.details.description == "grinning face" }
+        val result = filterEmojis(listOf(grinning), "  GRINNING  ")
+        assertEquals(1, result.size)
+    }
+
+    @Test
+    fun noMatchReturnsEmpty() {
+        val subset = sample.take(50)
+        assertTrue(filterEmojis(subset, "zzzzzznonexistentqqqqq").isEmpty())
+    }
+
+    @Test
+    fun matchesByAliasCaseInsensitive() {
         val target = sample.firstOrNull { it.details.aliases.isNotEmpty() }
             ?: error("expected at least one emoji with aliases")
         val alias = target.details.aliases.first()
         assertTrue(matchesQuery(target, alias))
+        assertTrue(matchesQuery(target, alias.uppercase()))
     }
 
     @Test
@@ -45,5 +65,11 @@ class EmojiSearchTest {
         assertTrue(result.isNotEmpty())
         assertTrue(result.size < source.size)
         assertTrue(result.all { matchesQuery(it, "smile") })
+    }
+
+    @Test
+    fun nonMatchingEmojiExcluded() {
+        val grinning = sample.first { it.details.description == "grinning face" }
+        assertFalse(matchesQuery(grinning, "automobile"))
     }
 }

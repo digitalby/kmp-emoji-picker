@@ -6,6 +6,7 @@ import org.kodein.emoji.allGroups
 import org.kodein.emoji.allOf
 import kotlin.test.Test
 import kotlin.test.assertEquals
+import kotlin.test.assertTrue
 
 class RecentEmojiStoreTest {
     private val samples: List<Emoji> by lazy {
@@ -29,5 +30,26 @@ class RecentEmojiStoreTest {
         samples.take(5).forEach { store.record(it) }
         assertEquals(3, store.recent.value.size)
         assertEquals(samples[4].details.string, store.recent.value.first().details.string)
+    }
+
+    @Test
+    fun recordingSameEmojiTwiceKeepsOneEntry() = runTest {
+        val store = RecentEmojiStore.inMemory(capacity = 5)
+        store.record(samples[0])
+        store.record(samples[0])
+        assertEquals(1, store.recent.value.size)
+    }
+
+    @Test
+    fun capacityZeroRetainsNothing() = runTest {
+        val store = RecentEmojiStore.inMemory(capacity = 0)
+        store.record(samples[0])
+        assertTrue(store.recent.value.isEmpty())
+    }
+
+    @Test
+    fun initialRecentIsEmpty() = runTest {
+        val store = RecentEmojiStore.inMemory()
+        assertTrue(store.recent.value.isEmpty())
     }
 }
