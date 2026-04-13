@@ -1,0 +1,102 @@
+package me.digitalby.emojipicker
+
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.heightIn
+import androidx.compose.material3.Surface
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.derivedStateOf
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
+import kotlinx.coroutines.launch
+import me.digitalby.emojipicker.internal.CategoryEntry
+import me.digitalby.emojipicker.internal.CategoryTabs
+import me.digitalby.emojipicker.internal.EmojiGrid
+import me.digitalby.emojipicker.internal.SearchField
+import me.digitalby.emojipicker.internal.filterEmojis
+import me.digitalby.emojipicker.internal.rememberEmojiCatalog
+import org.kodein.emoji.Emoji
+import org.kodein.emoji.compose.EmojiService
+
+public object EmojiPickerDefaults {
+    public const val DEFAULT_COLUMNS: Int = 8
+    public const val RECENT_TAB_LABEL: String = "Recent"
+}
+
+@Composable
+public fun EmojiPicker(
+    onEmojiSelected: (Emoji) -> Unit,
+    modifier: Modifier = Modifier,
+    state: EmojiPickerState = rememberEmojiPickerState(),
+    columns: Int = EmojiPickerDefaults.DEFAULT_COLUMNS,
+    showSearch: Boolean = true,
+    showRecent: Boolean = true,
+) {
+    LaunchedEffect(Unit) { EmojiService.initialize() }
+
+    val catalog by rememberEmojiCatalog()
+    val recent by state.recentStore.recent.collectAsState()
+    val scope = rememberCoroutineScope()
+
+    val categories = remember(catalog.groups, showRecent, recent.isNotEmpty()) {
+        buildList {
+            if (showRecent && recent.isNotEmpty()) {
+                add(CategoryEntry(RECENT_CATEGORY_ID, EmojiPickerDefaults.RECENT_TAB_LABEL))
+            }
+            catalog.groups.forEach { add(CategoryEntry(it, it)) }
+        }
+    }
+
+    LaunchedEffect(categories) {
+        if (categories.isNotEmpty() && categories.none { it.id == state.selectedCategory }) {
+            state.selectedCategory = categories.first().id
+        }
+    }
+
+    val sourceEmojis by remember(catalog, state.selectedCategory, recent) {
+        derivedStateOf {
+            when (state.selectedCategory) {
+                RECENT_CATEGORY_ID -> recent
+                else -> catalog.emojisByGroup[state.selectedCategory].orEmpty()
+            }
+        }
+    }
+
+    val visibleEmojis by remember(sourceEmojis, state.query) {
+        derivedStateOf { filterEmojis(sourceEmojis, state.query) }
+    }
+
+    Surface(
+        modifier = modifier.fillMaxWidth(),
+        color = androidx.compose.material3.MaterialTheme.colorScheme.surface,
+    ) {
+        Column(modifier = Modifier.fillMaxWidth()) {
+            if (showSearch) {
+                SearchField(query = state.query, onQueryChange = { state.query = it })
+            }
+            CategoryTabs(
+                categories = categories,
+                selected = state.selectedCategory,
+                onSelect = { state.selectedCategory = it },
+                modifier = Modifier.fillMaxWidth(),
+            )
+            EmojiGrid(
+                emojis = visibleEmojis,
+                state = state,
+                columns = columns,
+                onEmojiSelected = { selected ->
+                    scope.launch { state.recentStore.record(selected) }
+                    onEmojiSelected(selected)
+                },
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .heightIn(min = 240.dp),
+            )
+        }
+    }
+}

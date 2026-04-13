@@ -1,0 +1,12 @@
+.gradle/
+build/
+.idea/
+*.iml
+local.properties
+.DS_Store
+.kotlin/
+kotlin-js-store/
+captures/
+.cxx/
+xcuserdata/
+*.xcworkspace/xcuserdata/
