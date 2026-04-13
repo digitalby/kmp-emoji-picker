@@ -17,4 +17,5 @@ dependencyResolutionManagement {
 rootProject.name = "kmp-emoji-picker"
 
 include(":picker")
+include(":picker-codegen")
 include(":sample:composeApp")
