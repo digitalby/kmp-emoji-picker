@@ -26,7 +26,6 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.text.TextRange
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.launch
@@ -91,12 +90,4 @@ fun App() {
             }
         }
     }
-}
-
-private fun insertAtCaret(tfv: TextFieldValue, insert: String): TextFieldValue {
-    val start = tfv.selection.start.coerceIn(0, tfv.text.length)
-    val end = tfv.selection.end.coerceIn(0, tfv.text.length)
-    val newText = tfv.text.substring(0, start) + insert + tfv.text.substring(end)
-    val cursor = start + insert.length
-    return TextFieldValue(text = newText, selection = TextRange(cursor))
 }

@@ -80,7 +80,7 @@ internal fun SkinTonePopup(
     }
 }
 
-private fun SkinTone.label(): String = when (this) {
+internal fun SkinTone.label(): String = when (this) {
     SkinTone.Light -> "light"
     SkinTone.MediumLight -> "medium light"
     SkinTone.Medium -> "medium"

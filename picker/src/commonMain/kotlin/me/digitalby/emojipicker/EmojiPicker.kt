@@ -14,12 +14,13 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.launch
-import me.digitalby.emojipicker.internal.CategoryEntry
 import me.digitalby.emojipicker.internal.CategoryTabs
 import me.digitalby.emojipicker.internal.EmojiGrid
 import me.digitalby.emojipicker.internal.SearchField
+import me.digitalby.emojipicker.internal.buildCategories
 import me.digitalby.emojipicker.internal.filterEmojis
 import me.digitalby.emojipicker.internal.rememberEmojiCatalog
+import me.digitalby.emojipicker.internal.selectSourceEmojis
 import org.kodein.emoji.Emoji
 import org.kodein.emoji.compose.EmojiService
 
@@ -44,12 +45,12 @@ public fun EmojiPicker(
     val scope = rememberCoroutineScope()
 
     val categories = remember(catalog.groups, showRecent, recent.isNotEmpty()) {
-        buildList {
-            if (showRecent && recent.isNotEmpty()) {
-                add(CategoryEntry(RECENT_CATEGORY_ID, EmojiPickerDefaults.RECENT_TAB_LABEL))
-            }
-            catalog.groups.forEach { add(CategoryEntry(it, it)) }
-        }
+        buildCategories(
+            groups = catalog.groups,
+            showRecent = showRecent,
+            hasRecent = recent.isNotEmpty(),
+            recentLabel = EmojiPickerDefaults.RECENT_TAB_LABEL,
+        )
     }
 
     LaunchedEffect(categories) {
@@ -59,12 +60,7 @@ public fun EmojiPicker(
     }
 
     val sourceEmojis by remember(catalog, state.selectedCategory, recent) {
-        derivedStateOf {
-            when (state.selectedCategory) {
-                RECENT_CATEGORY_ID -> recent
-                else -> catalog.emojisByGroup[state.selectedCategory].orEmpty()
-            }
-        }
+        derivedStateOf { selectSourceEmojis(catalog, recent, state.selectedCategory) }
     }
 
     val visibleEmojis by remember(sourceEmojis, state.query) {
