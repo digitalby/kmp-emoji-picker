@@ -51,6 +51,7 @@ internal fun EmojiGrid(
     columns: Int,
     onEmojiSelected: (Emoji) -> Unit,
     modifier: Modifier = Modifier,
+    haptics: Haptics = rememberPlatformHaptics(),
 ) {
     if (emojis.isEmpty()) {
         Box(
@@ -81,7 +82,10 @@ internal fun EmojiGrid(
                 supportsTones = supportsTones,
                 onTap = { onEmojiSelected(resolved) },
                 onLongPress = {
-                    if (supportsTones) toneFor = baseEmoji
+                    if (supportsTones) {
+                        haptics.performLongPress()
+                        toneFor = baseEmoji
+                    }
                 },
             )
         }
