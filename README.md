@@ -86,6 +86,14 @@ Every emoji cell carries `contentDescription` and `Role.Button`, so TalkBack, Vo
 
 Emoji with skin-tone variants show a small disclosure triangle in the bottom-right corner of the cell (matching iOS and Android system pickers), and their `contentDescription` is suffixed with "has skin tone variants" so screen readers announce the affordance.
 
+## Localization
+
+Per-emoji names and search keywords ship in 18 locales (en, ru, uk, be, zh, zh-hant, es, fr, de, pt, ja, ko, it, ar, hi, tr, pl, nl), generated from CLDR annotations via the `:picker-codegen` module.
+
+Category tab labels ("Smileys & Emotion", "People", "Animals & Nature", etc.) ship in the same 18 locales, sourced from Apple's `EmojiFoundation.framework/Localizable.loctable` via the public [applelocalization.com](https://applelocalization.com) mirror of macOS/iOS system frameworks. The one label without a direct Apple equivalent — Unicode's `smileys_emotion` group — is hand-authored.
+
+The active locale is detected automatically via each platform's input-method / system locale API. Override via `-Demojipicker.forceLocale=<tag>` for deterministic tests.
+
 ## Run the sample
 
 The `sample/composeApp` module dogfoods the picker on every target.
