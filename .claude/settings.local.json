@@ -8,7 +8,8 @@
       "WebFetch(domain:www.unicode.org)",
       "WebFetch(domain:unicode.org)",
       "WebFetch(domain:emojibase.dev)",
-      "WebSearch"
+      "WebSearch",
+      "WebFetch(domain:repo1.maven.org)"
     ]
   }
 }

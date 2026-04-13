@@ -4,6 +4,7 @@ plugins {
     alias(libs.plugins.compose)
     alias(libs.plugins.android.library)
     alias(libs.plugins.maven.publish)
+    alias(libs.plugins.roborazzi)
 }
 
 kotlin {
@@ -27,6 +28,7 @@ kotlin {
             implementation(compose.foundation)
             implementation(compose.material3)
             implementation(compose.materialIconsExtended)
+            implementation(compose.components.resources)
             api(libs.kodein.emoji.kt)
             api(libs.kodein.emoji.compose.m3)
             implementation(libs.kotlinx.coroutines.core)
@@ -39,6 +41,7 @@ kotlin {
         }
         jvmTest.dependencies {
             implementation(compose.desktop.currentOs)
+            implementation(libs.roborazzi.compose.desktop)
         }
     }
 }
@@ -59,6 +62,12 @@ android {
         sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17
     }
+}
+
+compose.resources {
+    publicResClass = false
+    packageOfResClass = "me.digitalby.emojipicker.generated.resources"
+    generateResClass = auto
 }
 
 mavenPublishing {

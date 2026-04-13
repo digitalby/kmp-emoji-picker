@@ -1,6 +1,7 @@
 package me.digitalby.emojipicker
 
 import me.digitalby.emojipicker.internal.filterEmojis
+import me.digitalby.emojipicker.internal.l10n.LocalizedEntry
 import me.digitalby.emojipicker.internal.matchesQuery
 import org.kodein.emoji.Emoji
 import org.kodein.emoji.allGroups
@@ -71,5 +72,41 @@ class EmojiSearchTest {
     fun nonMatchingEmojiExcluded() {
         val grinning = sample.first { it.details.description == "grinning face" }
         assertFalse(matchesQuery(grinning, "automobile"))
+    }
+
+    @Test
+    fun localizedNameMatches() {
+        val grinning = sample.first { it.details.description == "grinning face" }
+        val entry = LocalizedEntry(name = "улыбающееся лицо", keywords = listOf("лицо", "улыбка"))
+        assertTrue(matchesQuery(grinning, "улыба", entry))
+        assertTrue(matchesQuery(grinning, "УЛЫБА", entry))
+    }
+
+    @Test
+    fun localizedKeywordMatches() {
+        val grinning = sample.first { it.details.description == "grinning face" }
+        val entry = LocalizedEntry(name = "笑脸", keywords = listOf("笑", "脸", "高兴"))
+        assertTrue(matchesQuery(grinning, "笑", entry))
+        assertTrue(matchesQuery(grinning, "高兴", entry))
+        assertFalse(matchesQuery(grinning, "哭", entry))
+    }
+
+    @Test
+    fun localizedEntryIsOptional() {
+        val grinning = sample.first { it.details.description == "grinning face" }
+        assertTrue(matchesQuery(grinning, "grin", localized = null))
+    }
+
+    @Test
+    fun filterEmojisAppliesLocalizedMap() {
+        val grinning = sample.first { it.details.description == "grinning face" }
+        val heart = sample.first { it.details.description.contains("red heart") }
+        val source = listOf(grinning, heart)
+        val map = mapOf(
+            grinning.details.string to LocalizedEntry("улыбающееся лицо", listOf("улыбка")),
+            heart.details.string to LocalizedEntry("красное сердце", listOf("сердце", "любовь")),
+        )
+        val matches = filterEmojis(source, "сердце", map)
+        assertEquals(listOf(heart), matches)
     }
 }

@@ -10,3 +10,7 @@ captures/
 .cxx/
 xcuserdata/
 *.xcworkspace/xcuserdata/
+**/build/outputs/roborazzi/
+**/*-diff.png
+**/*-actual.png
+**/*-compare.png

@@ -9,6 +9,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.produceState
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
@@ -19,6 +20,9 @@ import me.digitalby.emojipicker.internal.EmojiGrid
 import me.digitalby.emojipicker.internal.SearchField
 import me.digitalby.emojipicker.internal.buildCategories
 import me.digitalby.emojipicker.internal.filterEmojis
+import me.digitalby.emojipicker.internal.l10n.EmojiL10n
+import me.digitalby.emojipicker.internal.l10n.LocalizedEntry
+import me.digitalby.emojipicker.internal.l10n.rememberCurrentInputLocale
 import me.digitalby.emojipicker.internal.rememberEmojiCatalog
 import me.digitalby.emojipicker.internal.selectSourceEmojis
 import org.kodein.emoji.Emoji
@@ -63,8 +67,16 @@ public fun EmojiPicker(
         derivedStateOf { selectSourceEmojis(catalog, recent, state.selectedCategory) }
     }
 
-    val visibleEmojis by remember(sourceEmojis, state.query) {
-        derivedStateOf { filterEmojis(sourceEmojis, state.query) }
+    val inputLocale = rememberCurrentInputLocale()
+    val localizedEntries by produceState<Map<String, LocalizedEntry>?>(
+        initialValue = null,
+        key1 = inputLocale,
+    ) {
+        value = EmojiL10n.load(inputLocale)
+    }
+
+    val visibleEmojis by remember(sourceEmojis, state.query, localizedEntries) {
+        derivedStateOf { filterEmojis(sourceEmojis, state.query, localizedEntries) }
     }
 
     Surface(
