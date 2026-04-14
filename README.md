@@ -1,5 +1,12 @@
 # kmp-emoji-picker
 
+[![Maven Central](https://img.shields.io/maven-central/v/me.digitalby/kmp-emoji-picker?color=blue&label=Maven%20Central)](https://central.sonatype.com/artifact/me.digitalby/kmp-emoji-picker)
+[![License: MIT](https://img.shields.io/github/license/digitalby/kmp-emoji-picker?color=blue)](LICENSE)
+[![CI](https://github.com/digitalby/kmp-emoji-picker/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/digitalby/kmp-emoji-picker/actions/workflows/ci.yml)
+[![Kotlin](https://img.shields.io/badge/Kotlin-Multiplatform-7F52FF?logo=kotlin&logoColor=white)](https://kotlinlang.org/docs/multiplatform.html)
+[![Compose Multiplatform](https://img.shields.io/badge/Compose-Multiplatform-4285F4?logo=jetpackcompose&logoColor=white)](https://www.jetbrains.com/lp/compose-multiplatform/)
+![Targets](https://img.shields.io/badge/targets-Android%20%7C%20iOS%20%7C%20JVM%20%7C%20wasmJs-success)
+
 A Compose Multiplatform emoji picker. Works on Android, iOS, JVM/Desktop, and wasmJs from a single codebase.
 
 <p align="center">
@@ -21,7 +28,27 @@ This library is a thin UI layer on top of `org.kodein.emoji:emoji-compose-m3`, g
 
 ## Install
 
-Releases are published to GitHub Packages. Maven Central support is planned but not yet active, see [issue tracker](https://github.com/digitalby/kmp-emoji-picker/issues).
+```kotlin
+// settings.gradle.kts
+dependencyResolutionManagement {
+    repositories {
+        mavenCentral()
+        google()
+    }
+}
+
+// picker/build.gradle.kts (commonMain)
+dependencies {
+    implementation("me.digitalby:kmp-emoji-picker:0.1.0")
+}
+```
+
+Kotlin Multiplatform produces one artifact per target (`kmp-emoji-picker-android`, `-jvm`, `-iosarm64`, `-iossimulatorarm64`, `-iosx64`, `-wasm-js`) plus a metadata artifact. Gradle's KMP plugin resolves the right one for your target automatically, so you only need to declare the `kmp-emoji-picker` coordinate in `commonMain`.
+
+<details>
+<summary>GitHub Packages mirror (optional)</summary>
+
+Each release is also mirrored to GitHub Packages. Authentication is required for reads — generate a Personal Access Token with the `read:packages` scope and expose it as `GITHUB_TOKEN` (with `GITHUB_ACTOR` set to your GitHub username), or set `gpr.user` and `gpr.key` in `~/.gradle/gradle.properties`.
 
 ```kotlin
 // settings.gradle.kts
@@ -40,16 +67,9 @@ dependencyResolutionManagement {
         }
     }
 }
-
-// picker/build.gradle.kts (commonMain)
-dependencies {
-    implementation("me.digitalby:kmp-emoji-picker:0.1.0")
-}
 ```
 
-GitHub Packages requires authentication for reads. Generate a Personal Access Token with the `read:packages` scope and expose it as `GITHUB_TOKEN` (with `GITHUB_ACTOR` set to your GitHub username), or set `gpr.user` and `gpr.key` in `~/.gradle/gradle.properties`.
-
-Kotlin Multiplatform produces one artifact per target (`kmp-emoji-picker-android`, `-jvm`, `-iosarm64`, `-iossimulatorarm64`, `-iosx64`, `-wasm-js`) plus the metadata artifact. They all appear as separate entries on the repo's Packages page, which is expected for KMP publications on GitHub Packages.
+</details>
 
 ## Usage
 
